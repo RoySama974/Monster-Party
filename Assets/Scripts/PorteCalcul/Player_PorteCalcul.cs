@@ -8,20 +8,23 @@ public class Player_PorteCalcul : MonoBehaviour
     [Header("Player Settings")]
     [SerializeField] int moveSpeed;
 
-
+    Renderer _renderer;
+    PlayerInput _playerInput;
     Vector2 moveInput = Vector2.zero;
     Rigidbody rb;
-    void Start()
-    {
-        
-    }
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
     }
+    void Start()
+    {
+        _renderer = GetComponent<Renderer>();
+        _playerInput = GetComponent<PlayerInput>();
+        SetPlayer();
+    }
 
-    // Update is called once per frame
+
     void Update()
     {
         
@@ -35,5 +38,31 @@ public class Player_PorteCalcul : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
+    }
+
+    public void SetPlayer()
+    {
+        PlayerSkin();
+    }
+
+    void PlayerSkin()
+    {
+        if (_playerInput.playerIndex == 0)
+        {
+            _renderer.material.color = Color.red;
+        }
+        else if (_playerInput.playerIndex == 1)
+        {
+            _renderer.material.color = Color.blue;
+        }
+        else if (_playerInput.playerIndex == 2)
+        {
+            _renderer.material.color = Color.green;
+        }
+        else if (_playerInput.playerIndex == 3)
+        {
+            _renderer.material.color = Color.yellow;
+        }
+
     }
 }
