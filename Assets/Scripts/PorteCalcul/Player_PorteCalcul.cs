@@ -8,6 +8,7 @@ public class Player_PorteCalcul : MonoBehaviour
     [Header("Player Settings")]
     [SerializeField] int moveSpeed;
 
+    [SerializeField] Camera _cam; 
     Renderer _renderer;
     PlayerInput _playerInput;
     Vector2 moveInput = Vector2.zero;
@@ -40,9 +41,36 @@ public class Player_PorteCalcul : MonoBehaviour
         moveInput = context.ReadValue<Vector2>();
     }
 
-    public void SetPlayer()
+    void SetPlayer()
     {
         PlayerSkin();
+        CamLayerUpdate();
+    }
+
+    void CamLayerUpdate()
+    {
+        int layerToAdd = 0;
+
+        if (_playerInput.playerIndex == 0)
+        {
+            layerToAdd = LayerMask.NameToLayer("Player1");
+            
+        }
+        else if (_playerInput.playerIndex == 1)
+        {
+            layerToAdd = LayerMask.NameToLayer("Player2");
+        }
+        else if (_playerInput.playerIndex == 2)
+        {
+            layerToAdd = LayerMask.NameToLayer("Player3");
+        }
+        else if (_playerInput.playerIndex == 3)
+        {
+            layerToAdd = LayerMask.NameToLayer("Player4");
+        }
+
+        this.gameObject.layer = layerToAdd;
+        _cam.cullingMask |= (1 << layerToAdd);
     }
 
     void PlayerSkin()
