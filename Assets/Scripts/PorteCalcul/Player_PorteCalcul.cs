@@ -8,20 +8,24 @@ public class Player_PorteCalcul : MonoBehaviour
     [Header("Player Settings")]
     [SerializeField] int moveSpeed;
 
-
+    [SerializeField] Camera _cam; 
+    Renderer _renderer;
+    PlayerInput _playerInput;
     Vector2 moveInput = Vector2.zero;
     Rigidbody rb;
-    void Start()
-    {
-        
-    }
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
     }
+    void Start()
+    {
+        _renderer = GetComponent<Renderer>();
+        _playerInput = GetComponent<PlayerInput>();
+        SetPlayer();
+    }
 
-    // Update is called once per frame
+
     void Update()
     {
         
@@ -35,5 +39,58 @@ public class Player_PorteCalcul : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
+    }
+
+    void SetPlayer()
+    {
+        PlayerSkin();
+        CamLayerUpdate();
+    }
+
+    void CamLayerUpdate()
+    {
+        int layerToAdd = 0;
+
+        if (_playerInput.playerIndex == 0)
+        {
+            layerToAdd = LayerMask.NameToLayer("Player1");
+            
+        }
+        else if (_playerInput.playerIndex == 1)
+        {
+            layerToAdd = LayerMask.NameToLayer("Player2");
+        }
+        else if (_playerInput.playerIndex == 2)
+        {
+            layerToAdd = LayerMask.NameToLayer("Player3");
+        }
+        else if (_playerInput.playerIndex == 3)
+        {
+            layerToAdd = LayerMask.NameToLayer("Player4");
+        }
+
+        this.gameObject.layer = layerToAdd;
+        _cam.cullingMask |= (1 << layerToAdd);
+    }
+
+    void PlayerSkin()
+    {
+        if (_playerInput.playerIndex == 0)
+        {
+            _renderer.material.color = Color.red;
+        }
+        else if (_playerInput.playerIndex == 1)
+        {
+            _renderer.material.color = Color.blue;
+        }
+        else if (_playerInput.playerIndex == 2)
+        {
+            _renderer.material.color = Color.green;
+        }
+        else if (_playerInput.playerIndex == 3)
+        {
+            _renderer.material.color = Color.yellow;
+        }
+
     }
 }
