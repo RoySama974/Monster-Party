@@ -8,17 +8,17 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - Player1
   - Player2
   - Player3
   - Player4
-  - 
-  - 
-  - 
-  - 
+  - Ghost
+  - Dalles
+  - Lava
+  - Enviro
   - 
   - 
   - 
