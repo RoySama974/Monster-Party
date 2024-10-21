@@ -9,12 +9,19 @@ namespace PorteCalcul
 
         [Header("Player Settings")]
         [SerializeField] int moveSpeed;
+        public bool interacted;
 
         [SerializeField] Camera _cam;
         private Renderer _renderer;
         private PlayerInput _playerInput;
         private Vector2 moveInput = Vector2.zero;
         private Rigidbody rb;
+
+        public InputAction playerControls;
+
+
+
+      
 
         private void Awake()
         {
@@ -29,7 +36,7 @@ namespace PorteCalcul
             _cam.transform.position = GameManager.instance._posCams[0].position;
         }
 
-
+        
         void Update()
         {
 
@@ -44,6 +51,34 @@ namespace PorteCalcul
         {
             moveInput = context.ReadValue<Vector2>();
         }
+
+        public void OnInteract(InputAction.CallbackContext context) 
+        {
+            //Equivaut a un GetKeyDown (appuie sur le bouton)
+            context.action.started += context =>
+            {
+                interacted = !interacted;
+
+
+            };
+
+            //Equivaut a un GetKeyDown (appuie sur le bouton)
+            //context.action.performed += context =>
+            //{
+            //    interacted = !interacted;
+            //};
+
+            ////Equivaut a un GetKeyUp (quand on relache le bouton)
+            //context.action.canceled += context =>
+            //{
+            //    interacted = false;
+            //};
+
+            //interacted = !interacted;
+
+        }
+
+
 
         void SetPlayer()
         {

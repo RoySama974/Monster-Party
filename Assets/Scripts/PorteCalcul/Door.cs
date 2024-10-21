@@ -6,22 +6,34 @@ namespace PorteCalcul
     public class Door : MonoBehaviour
     {
         public bool open = false;
+        //public bool playerIn = false;
+        [SerializeField] GameObject _doorMesh;
 
         void Start()
         {
             open = false;
         }
 
-        public void ToggleDoor()
+        public void ToggleDoor(bool doorState)
         {
-            open = !open;
-            if (open)
+            open = doorState;
+            _doorMesh.SetActive(open);
+        }
+
+
+        private void OnTriggerStay(Collider other)
+        {
+            if (other.CompareTag("Player"))
             {
-                transform.position = new Vector3(transform.position.x, transform.position.y + 10f, transform.position.z);
-            }
-            else
-            {
-                transform.position = new Vector3(transform.position.x, transform.position.y - 10f, transform.position.z);
+                Player player = other.GetComponent<Player>();
+                if (player.interacted)
+                {
+                    ToggleDoor(true);
+                }
+                else
+                {
+                    ToggleDoor(false);
+                }
             }
         }
     } 

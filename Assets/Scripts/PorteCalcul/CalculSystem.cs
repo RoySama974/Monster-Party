@@ -14,7 +14,7 @@ namespace PorteCalcul
 
 
         [Header("Objects")]
-        [SerializeField] Transform[] interuptors;
+      
         [SerializeField] Transform[] doors;
 
         [Header("Display")]
@@ -54,7 +54,7 @@ namespace PorteCalcul
         void PlaceObject()
         {
             PlacePair(doors, 5.15f, GetRandomBoolean());
-            PlacePair(interuptors, 4f, GetRandomBoolean());
+         
         }
 
         void PlacePair(Transform[] objects, float xOffset, bool rightSide)
