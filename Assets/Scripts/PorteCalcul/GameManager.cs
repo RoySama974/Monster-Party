@@ -7,7 +7,7 @@ namespace PorteCalcul
     public class GameManager : MonoBehaviour
     {
         public List<Player> _players;
-        public Transform[] _posCams;
+        public Transform[] _posCams; 
         public static GameManager instance;
             
 
