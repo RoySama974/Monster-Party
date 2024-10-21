@@ -6,6 +6,7 @@ namespace PorteCalcul
     public class Door : MonoBehaviour
     {
         public bool open = false;
+
         void Start()
         {
             open = false;
