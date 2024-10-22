@@ -21,10 +21,22 @@ namespace PorteCalcul
         [SerializeField] TextMeshPro resultDoorText;
         [SerializeField] TextMeshPro fakeResultDoorText;
         [SerializeField] TextMeshPro operationText;
+
+        public static CalculSystem instance;
+        private void Awake()
+        {
+            if (instance != null)
+            {
+                Debug.LogError("Il y a plus d'une instance de GameManager_PorteCalcul dans la scène");
+                return;
+            }
+            instance = this;
+
+
+        }
         void Start()
         {
-            PlaceObject();
-            ChooseOperation();
+            LaunchOperation();
         }
 
         void ChooseOperation()
@@ -43,12 +55,30 @@ namespace PorteCalcul
             else
             {
                 operationSign = " - ";
+                
+                if (firstInt < secondInt)
+                {
+                    int temp = firstInt;
+                    firstInt = secondInt;
+                    secondInt = temp;
+                }
                 result = firstInt - secondInt;
                 fakeResult = result - Random.Range(0, 4);
             }
 
+            if (result == fakeResult)
+            {
+                fakeResult++;
+            }
+
             DisplayOperation();
 
+        }
+
+        public void LaunchOperation()
+        {
+            PlaceObject();
+            ChooseOperation();
         }
 
         void PlaceObject()

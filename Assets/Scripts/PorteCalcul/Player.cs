@@ -8,20 +8,26 @@ namespace PorteCalcul
     {
 
         [Header("Player Settings")]
-        [SerializeField] int moveSpeed;
-        public bool interacted;
+        [SerializeField] int moveSpeed; 
+        [SerializeField] int health;
+        public Vector3 startPos;
+
+        public enum PlayerNumber
+        {
+            None, P1, P2, P3, P4
+        }
+
+        public PlayerNumber playerNumber = PlayerNumber.None;
+       
 
         [SerializeField] Camera _cam;
         private Renderer _renderer;
-        private PlayerInput _playerInput;
+        [HideInInspector] public PlayerInput _playerInput;
         private Vector2 moveInput = Vector2.zero;
         private Rigidbody rb;
 
         public InputAction playerControls;
 
-
-
-      
 
         private void Awake()
         {
@@ -30,10 +36,11 @@ namespace PorteCalcul
         }
         void Start()
         {
+            startPos = transform.position;
             _renderer = GetComponent<Renderer>();
             _playerInput = GetComponent<PlayerInput>();
             SetPlayer();
-            _cam.transform.position = GameManager.instance._posCams[0].position;
+            _cam.transform.position = GameManager.instance._posCam.position;
         }
 
         
@@ -52,31 +59,31 @@ namespace PorteCalcul
             moveInput = context.ReadValue<Vector2>();
         }
 
-        public void OnInteract(InputAction.CallbackContext context) 
-        {
-            //Equivaut a un GetKeyDown (appuie sur le bouton)
-            context.action.started += context =>
-            {
-                interacted = !interacted;
+        //public void OnInteract(InputAction.CallbackContext context) 
+        //{
+        //    //Equivaut a un GetKeyDown (appuie sur le bouton)
+        //    context.action.started += context =>
+        //    {
+        //        interacted = !interacted;
 
 
-            };
+        //    };
 
-            //Equivaut a un GetKeyDown (appuie sur le bouton)
-            //context.action.performed += context =>
-            //{
-            //    interacted = !interacted;
-            //};
+        //    //Equivaut a un GetKeyDown (appuie sur le bouton)
+        //    //context.action.performed += context =>
+        //    //{
+        //    //    interacted = !interacted;
+        //    //};
 
-            ////Equivaut a un GetKeyUp (quand on relache le bouton)
-            //context.action.canceled += context =>
-            //{
-            //    interacted = false;
-            //};
+        //    ////Equivaut a un GetKeyUp (quand on relache le bouton)
+        //    //context.action.canceled += context =>
+        //    //{
+        //    //    interacted = false;
+        //    //};
 
-            //interacted = !interacted;
+        //    //interacted = !interacted;
 
-        }
+        //}
 
 
 
@@ -93,19 +100,23 @@ namespace PorteCalcul
             if (_playerInput.playerIndex == 0)
             {
                 layerToAdd = LayerMask.NameToLayer("Player1");
+                playerNumber = PlayerNumber.P1;
 
             }
             else if (_playerInput.playerIndex == 1)
             {
                 layerToAdd = LayerMask.NameToLayer("Player2");
+                playerNumber = PlayerNumber.P2;
             }
             else if (_playerInput.playerIndex == 2)
             {
                 layerToAdd = LayerMask.NameToLayer("Player3");
+                playerNumber = PlayerNumber.P3;
             }
             else if (_playerInput.playerIndex == 3)
             {
                 layerToAdd = LayerMask.NameToLayer("Player4");
+                playerNumber = PlayerNumber.P4;
             }
 
             this.gameObject.layer = layerToAdd;
